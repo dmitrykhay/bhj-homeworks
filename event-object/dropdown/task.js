@@ -1,23 +1,25 @@
-let tabs = Array.from(document.querySelectorAll('.tab'))
-let tabsContent = Array.from(document.querySelectorAll('.tab__content'))
+const buttons = Array.from(document.querySelectorAll('.dropdown'));
 
-function getActiveIndex() {
-    return tabs.findIndex(el => el.classList.contains('tab_active'))
-}
+buttons.forEach((item) => {
+    const mainArtical = item.querySelector('.dropdown__value')
+    const dropdownArticals = item.querySelector('.dropdown__list')
+    const listItem = Array.from(item.querySelectorAll('.dropdown__item'))
+    
+    function activateMenu(menuListDisplay) {
+        menuListDisplay.classList.toggle('dropdown__list_active')
+        }
+        
+    function changeArtical(event) {
+        event.preventDefault()
+        mainArtical.textContent = event.target.textContent
+        event.target.closest('.dropdown__list').classList.remove('dropdown__list_active')
+    }
+    
+    mainArtical.addEventListener('click', () => {activateMenu(dropdownArticals)})
 
-function changePosition(position) {
-    let indexActive = getActiveIndex()
-
-    tabs[indexActive].classList.remove('tab_active')
-    tabsContent[indexActive].classList.remove('tab__content_active')
-
-    tabs[position].classList.add('tab_active')
-    tabsContent[position].classList.add('tab__content_active')
-}
-
-tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-        let indexChange = tabs.indexOf(tab)
-        changePosition(indexChange)
-    })
+    for(let item of listItem) {
+        item.addEventListener('click', changeArtical)
+    }
 })
+
+
